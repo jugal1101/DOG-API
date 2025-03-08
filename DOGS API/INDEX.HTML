@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+         .main {
+            width:70%;
+            margin: auto;
+            display: flex;
+            justify-content: space-evenly;
+            flex-wrap: wrap;
+        }
+    </style>
+</head>
+<body>
+    <div class="main"></div>
+</body>
+</html>
+
+<script>
+
+    function GetApi(){
+        fetch("http://localhost:3000/breeds")
+        .then((res)=>res.json())
+        .then((data)=>{
+        Card_list(data)
+        })
+        .catch((err)=>{
+            console.log(err)
+        })
+    }
+    GetApi()
+
+
+    function CreateCards(image,name,breed_group,size,lifespan,colors,description){
+        let cards=
+        `<div class="card " style="width: 20.5rem; margin-bottom: 40px;    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);">
+        <img src="${image}" class="card-img-top" style="width: 20.5rem;" alt="">
+        <div class="card-body">
+            <h2 class="card-name">${name}</h2>
+            <p class="card-breed_group">${breed_group}</p>
+            <p class="card-size">${size}</p>
+            <p class="card-lifespan">${lifespan}</p>
+            <p class="card-colors">${colors}</p>
+            <p class="card-description">${description}</p>
+        </div>
+    </div>
+        `
+
+        return cards;
+    }
+
+
+    function Card_list(data){
+       const breedsData= data.map((el)=> CreateCards(el.image,el.name,el.breed_group,el.size,el.lifespan,el.colors,el.description));
+
+       document.querySelector(".main").innerHTML=breedsData.join("");
+    }
+
+</script>
